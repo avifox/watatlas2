@@ -1,6 +1,3 @@
-<?php
-// index.php
-?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -23,8 +20,7 @@
   <input class="form-control me-2 w-50" type="search" name="q" placeholder="Enter your destination?" aria-label="Search">
   <button class="btn btn-light" type="submit">Search</button>
 </form>
-
-  </div>
+</div>
 </div>
 <!-- Content Section -->
 <?php include 'features/attractions.php'; ?>
@@ -32,7 +28,6 @@
 <footer>
   <p>&copy; <?php echo date("Y"); ?> WatAtlas.com.</p>
 </footer>
-
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>

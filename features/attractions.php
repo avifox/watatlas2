@@ -2,7 +2,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
 <div class="container my-5">
-  <h2 class="mb-4">Attractions</h2>
+  <h2 class="mb-4">Top Attractions</h2>
   <div class="row">
     <?php
     $sql = "SELECT p.id, p.name, p.description, p.region, p.country, p.location, p.phone, p.picture, t.typename
