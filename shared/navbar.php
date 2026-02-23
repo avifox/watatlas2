@@ -1,5 +1,21 @@
 <script src="https://accounts.google.com/gsi/client" async defer></script>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"> <!-- Google Fonts --> 
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+<style> /* Beautiful travel-like font for WatAtlas */ 
+.navbar-brand { 
+  font-size: 3rem; /* Bigger size */ 
+font-family: 'Cinzel Decorative', cursive; /* Travel-inspired font */ 
+color: #fff !important; 
+/* White text */ 
+letter-spacing: 2px; 
+/* Adds spacing for elegance */ 
+} 
 
+.greet{
+color: #fff !important; 
+}
+
+</style>
 <?php if (session_status() === PHP_SESSION_NONE) {
     session_start();
 } ?>
@@ -25,7 +41,7 @@
         <li class="nav-item"><a class="nav-link" href="#">Food</a></li> -->
       </ul>
 
-      <div class="d-flex align-items-center ms-3">
+      <div class="d-flex align-items-center ms-3 greet">
         <?php if (isset($_SESSION['username'])): ?>
           <span class="me-3">
             Hi, <?php 
