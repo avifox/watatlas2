@@ -1,0 +1,50 @@
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f8f9fa;
+}
+
+.navbar {
+  background-color: #0c0f0f; /* TripAdvisor green */
+}
+
+.navbar-brand, .nav-link {
+  color: #fff !important;
+}
+
+.hero {
+  background: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1600&q=80') center/cover no-repeat;
+  height: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.hero::after {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.4); /* dark overlay for readability */
+}
+
+.hero-content {
+  position: relative;
+  color: white;
+  text-shadow: 1px 1px 4px rgba(0,0,0,0.7);
+  z-index: 1;
+}
+
+.card img {
+  height: 200px;
+  object-fit: cover;
+}
+
+footer {
+  background-color: #343a40;
+  color: #fff;
+  padding: 20px 0;
+  text-align: center;
+}
+
+/*Profile image*/
+.profile-img { width: 40px; height: 40px; object-fit: cover; border: 2px solid #fff; }
