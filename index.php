@@ -17,9 +17,10 @@
 
     <!-- Google Identity Services (once) -->
     <script src="https://accounts.google.com/gsi/client" async defer></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <!-- Your custom CSSs -->
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="assets/css/style.css">
     <link rel="stylesheet" href="assets/css/categories.css">
     <link rel="stylesheet" href="assets/css/navbar.css">
 </head>
@@ -41,8 +42,8 @@
         </div>
     </div>
     <!-- Content Section -->
-    <?php include 'features/categories.php'; ?>
-    <?php include 'features/top-attractions.php'; ?>
+    <?php include 'features/home/categories.php'; ?>
+    <?php include 'features/home/top-attractions.php'; ?>
     <!-- Footer -->
     <footer>
         <p>&copy; <?php echo date("Y"); ?> WatAtlas.com.</p>

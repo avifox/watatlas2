@@ -1,8 +1,4 @@
-<?php include __DIR__ . '/../shared/dbConfig.php'; ?>
-<link rel="stylesheet" href="../style.css">
-
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-
+<?php include __DIR__ . '/../../shared/dbConfig.php'; ?>
 <div class="container my-5">
   <h2 class="mb-4">Top Attractions</h2>
   <div class="row">
@@ -29,7 +25,7 @@
                 <h5 class="card-title">'.$row["name"].'</h5>
                 <p class="card-text">'.$desc.'</p>
                 <p class="small text-muted">
-                  <i class="fas fa-map-marker-alt"></i> '.$row["region"].'<br>
+                  <i class="fas fa-map-marker-alt mb-2"></i> '.$row["region"].'<br>
                   <i class="fas fa-flag"></i> '.$row["country"].'
                 </p>
               </div>

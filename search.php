@@ -1,10 +1,10 @@
 <?php
-// search.php
+include 'shared/dbConfig.php';
+include 'shared/navbar.php';
+
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
-include 'shared/dbConfig.php';
-include 'shared/navbar.php';
 
 // Get search term
 $searchTerm = isset($_GET['q']) ? trim($_GET['q']) : '';
@@ -33,7 +33,7 @@ if (!empty($searchTerm)) {
   <meta charset="UTF-8">
   <title>Search Results - WatAtlas</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="./assets/style.css">
 </head>
 <body>
 <div class="container my-5">
