@@ -18,7 +18,7 @@
 
         echo '
         <div class="col-md-3 mb-4">
-          <a href="features/place.php?id='.$row["id"].'" class="text-decoration-none text-dark">
+          <a href="./features/place/place-review.php?id='.$row["id"].'" class="text-decoration-none text-dark">
             <div class="card shadow-sm h-100">
               <img src="'.$row["picture"].'" class="card-img-top" alt="'.$row["name"].'">
               <div class="card-body">

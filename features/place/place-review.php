@@ -1,6 +1,6 @@
 <?php
-include '../shared/navbar.php';
-include '../shared/dbConfig.php'; 
+include '../../shared/navbar.php';
+include '../../shared/dbConfig.php'; 
 
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
@@ -96,11 +96,11 @@ if (isset($_SESSION['userid'])) {
 <meta charset="UTF-8">
 <title><?php echo htmlspecialchars($place['name']); ?> - Details</title>
 
-<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="/../assets/style.css">
 <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-<link rel="stylesheet" href="../assets/css/place.css">
+<link rel="stylesheet" href="../../assets/css/place.css">
 </head>
 
 <body>
@@ -108,7 +108,7 @@ if (isset($_SESSION['userid'])) {
 
 <!-- HERO -->
 <div class="place-hero mb-4">
-    <img src="<?php echo '../'.htmlspecialchars($place['picture']); ?>">
+    <img src="<?php echo '../../'.htmlspecialchars($place['picture']); ?>">
     <div class="hero-overlay">
         <h2><?php echo htmlspecialchars($place['name']); ?></h2>
         <span class="badge bg-light text-dark">
@@ -132,9 +132,9 @@ if (isset($_SESSION['userid'])) {
 <div class="row gallery g-3">
 <?php foreach ($pictures as $pic): ?>
 <div class="col-md-4">
-<img src="<?php echo htmlspecialchars($pic); ?>" 
+<img src="../<?php echo htmlspecialchars($pic); ?>" 
      class="w-100 gallery-img"
-     data-img="<?php echo htmlspecialchars($pic); ?>">
+     data-img="../<?php echo htmlspecialchars($pic); ?>">
 </div>
 <?php endforeach; ?>
 </div>
