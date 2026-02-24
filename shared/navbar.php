@@ -6,7 +6,7 @@ if (session_status() === PHP_SESSION_NONE) {
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
   <div class="container">
     <!-- Use a path relative to index.php (root) -->
-    <a class="navbar-brand fw-bold" href="index.php">WatAtlas</a>
+    <a class="navbar-brand fw-bold" href="/watatlas/index.php">WatAtlas</a>
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
       <span class="navbar-toggler-icon"></span>

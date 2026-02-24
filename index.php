@@ -34,9 +34,12 @@
             <div class="hero-content text-center">
                 <h1 class="display-5 fw-bold text-white mb-4">Where Do You Want To Go</h1>
                 <form class="d-flex justify-content-center" action="search.php" method="get">
-                    <input class="form-control me-2" style="max-width: 280px;" type="search" name="q"
+                    <input class="form-control me-2" style="max-width: 380px;" type="search" name="q"
                         placeholder="Enter your destination?" aria-label="Search">
-                    <button class="btn btn-light px-4" type="submit">Search</button>
+                    <button class="btn btn-light px-4" type="submit">
+                        <i class="bi bi-search"></i>
+                    </button>
+
                 </form>
             </div>
         </div>

@@ -29,36 +29,46 @@ if (!empty($searchTerm)) {
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <title>Search Results - WatAtlas</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="./assets/style.css">
+    <meta charset="UTF-8">
+    <title>Search Results - WatAtlas</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="./assets/style.css">
 </head>
+
 <body>
-<div class="container my-5">
-  <h2>Search Results for "<?php echo htmlspecialchars($searchTerm); ?>"</h2>
-  <div class="row mt-4">
-    <?php if (!empty($results)): ?>
-      <?php foreach ($results as $place): ?>
-        <div class="col-md-4 mb-4">
-          <div class="card h-100 shadow-sm">
-            <img src="<?php echo $place['picture']; ?>" class="card-img-top" alt="<?php echo htmlspecialchars($place['name']); ?>">
-            <div class="card-body">
-              <h5 class="card-title"><?php echo htmlspecialchars($place['name']); ?></h5>
-              <span class="badge bg-secondary"><?php echo htmlspecialchars($place['typename']); ?></span>
-              <p class="card-text mt-2">
-                <?php echo htmlspecialchars($place['address']); ?>, <?php echo htmlspecialchars($place['country']); ?>
-              </p>
-              <a href="features/place.php?id=<?php echo $place['id']; ?>" class="btn btn-outline-primary btn-sm">View Details</a>
+    <div class="container my-5">
+        <h2>Search Results for "<?php echo htmlspecialchars($searchTerm); ?>"</h2>
+        <div class="row mt-4">
+            <?php if (!empty($results)): ?>
+            <?php foreach ($results as $place): ?>
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 shadow-sm">
+                    <img src="<?php echo $place['picture']; ?>" class="card-img-top"
+                        alt="<?php echo htmlspecialchars($place['name']); ?>">
+                    <div class="card-body">
+                        <h5 class="card-title"><?php echo htmlspecialchars($place['name']); ?></h5>
+                        <span class="badge bg-secondary"><?php echo htmlspecialchars($place['typename']); ?></span>
+                        <p class="card-text mt-2">
+                            <?php echo htmlspecialchars($place['address']); ?>,
+                            <?php echo htmlspecialchars($place['country']); ?>
+                        </p>
+                        <a href="features/place.php?id=<?php echo $place['id']; ?>"
+                            class="btn btn-outline-primary btn-sm">View Details</a>
+                    </div>
+                </div>
             </div>
-          </div>
+            <?php endforeach; ?>
+            <?php else: ?>
+            <div class="text-center">
+                <img src="uploads/basic/search-empty.jpg" alt="No results found" class="img-fluid"
+                    style="max-width: 700px;">
+                <p class="mt-3 fw-bold text-danger fs-2">No results found.</p>
+            </div>
+            <?php endif; ?>
         </div>
-      <?php endforeach; ?>
-    <?php else: ?>
-      <p>No results found.</p>
-    <?php endif; ?>
-  </div>
-</div>
+    </div>
 </body>
+
 </html>

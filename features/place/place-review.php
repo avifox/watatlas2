@@ -96,7 +96,7 @@ if (isset($_SESSION['userid'])) {
 <meta charset="UTF-8">
 <title><?php echo htmlspecialchars($place['name']); ?> - Details</title>
 
-<link rel="stylesheet" href="/../assets/style.css">
+<link rel="stylesheet" href="../../assets/css/navbar.css">
 <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
