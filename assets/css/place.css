@@ -1,0 +1,34 @@
+body { background:#f8f9fa; }
+.place-hero { position:relative; border-radius:15px; overflow:hidden; }
+.place-hero img { width:100%; height:420px; object-fit:cover; }
+.hero-overlay {
+    position:absolute; bottom:0; width:100%;
+    padding:30px;
+    background:linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+    color:white;
+}
+.info-card {
+    border:none;
+    border-radius:15px;
+    box-shadow:0 5px 20px rgba(0,0,0,0.05);
+}
+#map { height:250px; border-radius:12px; }
+.gallery img {
+    height:180px; 
+    object-fit:cover;
+    border-radius:10px; 
+    transition:0.3s;
+    cursor:pointer;
+}
+.gallery img:hover { 
+    transform:scale(1.05); 
+}
+.review-card {
+    border:none;
+    border-radius:12px;
+    box-shadow:0 3px 12px rgba(0,0,0,0.05);
+}
+.star-rating { font-size:1.8rem; color:#ccc; cursor:pointer; }
+.star-rating .star.selected { color:#f5c518; }
+.section-title { font-weight:600; margin-bottom:20px; }
+.modal-content { background:transparent; border:none; }

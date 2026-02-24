@@ -1,0 +1,14 @@
+.category-card {
+    transition: transform 0.2s ease, background-color 0.2s ease;
+    background-color: #fff;
+}
+
+.category-card:hover {
+    background-color: #32608d !important; /* force blue hover */
+    transform: translateY(-5px);
+}
+
+.category-card:hover h6,
+.category-card:hover i {
+    color: #fff !important; /* ensure icons/text are visible */
+}

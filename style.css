@@ -3,14 +3,6 @@ body {
   background-color: #f8f9fa;
 }
 
-.navbar {
-  background-color: #0c0f0f; /* TripAdvisor green */
-}
-
-.navbar-brand, .nav-link {
-  color: #fff !important;
-}
-
 .hero {
   background: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1600&q=80') center/cover no-repeat;
   height: 400px;

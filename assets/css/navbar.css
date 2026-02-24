@@ -1,0 +1,12 @@
+.navbar {
+  background-color: #003366; /* dark blue */
+}
+
+.navbar a.nav-link {
+  color: white !important;
+  transition: color 0.2s ease;
+}
+
+.navbar a.nav-link:hover {
+  color: #ffc107 !important; /* gold hover */
+}

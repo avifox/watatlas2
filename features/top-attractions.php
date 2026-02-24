@@ -1,4 +1,6 @@
-<?php include 'shared/dbConfig.php'; ?>
+<?php include __DIR__ . '/../shared/dbConfig.php'; ?>
+<link rel="stylesheet" href="../style.css">
+
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
 <div class="container my-5">

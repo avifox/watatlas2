@@ -38,7 +38,6 @@ if (!empty($searchTerm)) {
 <body>
 <div class="container my-5">
   <h2>Search Results for "<?php echo htmlspecialchars($searchTerm); ?>"</h2>
-
   <div class="row mt-4">
     <?php if (!empty($results)): ?>
       <?php foreach ($results as $place): ?>
