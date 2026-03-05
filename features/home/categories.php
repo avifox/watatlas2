@@ -30,7 +30,7 @@
           <div class="card text-center h-100 border-0 shadow-sm category-card">
             <div class="card-body">
               <i class="bi bi-heart-pulse display-4 text-danger"></i>
-              <h6 class="mt-3 text-danger">Vet / Pet Shop</h6>
+              <h6 class="mt-3 text-danger">Veterinary</h6>
             </div>
           </div>
         </a>

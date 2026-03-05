@@ -50,10 +50,6 @@ $picStmt->close();
 /* =========================
    REVIEWS
 ========================= */
-/* =========================
-   REVIEWS
-========================= */
-
 $reviews = [];
 $userid = isset($_SESSION['userid']) ? $_SESSION['userid'] : 0;
 
@@ -106,14 +102,8 @@ if (isset($_SESSION['userid'])) {
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title><?php echo htmlspecialchars($place['name']); ?> - Details</title>
-<script src="https://accounts.google.com/gsi/client" async defer></script>
-<link rel="stylesheet" href="../../assets/css/navbar.css">
-<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-<link rel="stylesheet" href="../../assets/css/place.css">
+    <?php include './shared/head.php'; ?>
+    <title><?php echo htmlspecialchars($place['name']); ?></title>
 </head>
 
 <body>
@@ -318,6 +308,7 @@ galleryImages.forEach(img => {
     });
 });
 </script>
-
+    <!-- Footer -->
+    <?php include '../../shared/footer.php'; ?>
 </body>
 </html>
