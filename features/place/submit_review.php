@@ -1,5 +1,5 @@
 <?php
-include '../shared/dbConfig.php'; 
+include '../../shared/dbConfig.php'; 
 
 $placeid    = intval($_POST['placeid']);
 $userid     = $_POST['userid'];
@@ -13,7 +13,7 @@ $stmt = $conn->prepare($sql);
 $stmt->bind_param("isiss", $placeid, $userid, $rating, $reviewtext, $createdat);
 
 if ($stmt->execute()) {
-    header("Location: place.php?id=" . $placeid);
+    header("Location: place-review.php?id=" . $placeid);
 } else {
     echo "Error: " . $stmt->error;
 }

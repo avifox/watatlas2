@@ -27,7 +27,7 @@ if (session_status() === PHP_SESSION_NONE) {
               echo htmlspecialchars($parts[0]);
             ?>
           </span>
-          <a href="shared/logout.php" class="btn btn-secondary btn-sm">Logout</a>
+          <a href="./shared/logout.php" class="btn btn-secondary btn-sm">Logout</a>
         <?php else: ?>
           <!-- Google Sign-In placeholders (keep the divs, script is loaded in index.php head) -->
           <div id="g_id_onload"

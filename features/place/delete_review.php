@@ -1,5 +1,5 @@
 <?php
-include '../shared/dbConfig.php';
+include '../../shared/dbConfig.php';
 
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
@@ -30,7 +30,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
 
     // Redirect back to the place page
-    header("Location: place.php?id=" . $placeId);
+    header("Location: place-review.php?id=" . $placeId);
     exit();
 }
 

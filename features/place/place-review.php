@@ -50,21 +50,34 @@ $picStmt->close();
 /* =========================
    REVIEWS
 ========================= */
+/* =========================
+   REVIEWS
+========================= */
+
 $reviews = [];
+$userid = isset($_SESSION['userid']) ? $_SESSION['userid'] : 0;
+
 $revStmt = $conn->prepare("
-    SELECT r.id, r.userid, r.rating, r.reviewtext, r.createdat,
-           u.firstname, u.lastname
+    SELECT r.id, r.userid, r.rating, r.reviewtext, r.flagged, r.createdat,
+           u.firstname, u.lastname,
+           IF(urf.userid IS NULL, 0, 1) AS already_flagged
     FROM reviews r
     JOIN users u ON r.userid = u.userid
+    LEFT JOIN user_review_flag urf 
+           ON urf.reviewid = r.id 
+           AND urf.userid = ?
     WHERE r.placeid = ?
     ORDER BY r.createdat DESC
 ");
-$revStmt->bind_param("i", $placeId);
+
+$revStmt->bind_param("ii", $userid, $placeId);
 $revStmt->execute();
 $revResult = $revStmt->get_result();
+
 while ($row = $revResult->fetch_assoc()) {
     $reviews[] = $row;
 }
+
 $revStmt->close();
 
 /* =========================
@@ -95,7 +108,7 @@ if (isset($_SESSION['userid'])) {
 <head>
 <meta charset="UTF-8">
 <title><?php echo htmlspecialchars($place['name']); ?> - Details</title>
-
+<script src="https://accounts.google.com/gsi/client" async defer></script>
 <link rel="stylesheet" href="../../assets/css/navbar.css">
 <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
@@ -149,14 +162,18 @@ if (isset($_SESSION['userid'])) {
 <div class="review-card p-3 mb-3 bg-white">
 
 <div class="d-flex justify-content-between align-items-start">
+
 <div>
 <strong><?php echo htmlspecialchars($rev['firstname'].' '.$rev['lastname']); ?></strong>
-<span class="badge bg-warning text-dark ms-2"><?php echo $rev['rating']; ?>/5</span>
+<span class="badge bg-warning text-dark ms-2">
+<?php echo $rev['rating']; ?>/5
+</span>
 </div>
 
+<div class="d-flex align-items-center gap-2">
+
 <?php if (isset($_SESSION['userid']) && $_SESSION['userid'] == $rev['userid']): ?>
-<form method="post" action="delete_review.php"
-onsubmit="return confirm('Delete your review?');">
+<form method="post" action="delete_review.php" onsubmit="return confirm('Delete your review?');">
 <input type="hidden" name="reviewid" value="<?php echo $rev['id']; ?>">
 <input type="hidden" name="placeid" value="<?php echo $placeId; ?>">
 <button class="btn btn-sm btn-outline-danger">
@@ -165,11 +182,42 @@ onsubmit="return confirm('Delete your review?');">
 </form>
 <?php endif; ?>
 
+
+<?php if (isset($_SESSION['userid'])): ?>
+
+<?php if ($rev['already_flagged']): ?>
+
+<button class="btn btn-sm btn-warning disabled"
+        title="You already reported this review">
+<i class="bi bi-flag-fill"></i>
+<span class="ms-1"><?php echo $rev['flagged']; ?></span>
+</button>
+
+<?php else: ?>
+
+<form method="post" action="flag_review.php">
+<input type="hidden" name="reviewid" value="<?php echo $rev['id']; ?>">
+<input type="hidden" name="placeid" value="<?php echo $placeId; ?>">
+
+<button class="btn btn-sm btn-outline-warning"
+        title="Report this review"
+        onclick="return confirm('Report this review?');">
+<i class="bi bi-flag"></i>
+<span class="ms-1"><?php echo $rev['flagged']; ?></span>
+</button>
+
+</form>
+
+<?php endif; ?>
+
+<?php endif; ?>
+
 </div>
+</div>
+
 
 <p class="mt-2"><?php echo nl2br(htmlspecialchars($rev['reviewtext'])); ?></p>
 <div class="text-muted small"><?php echo $rev['createdat']; ?></div>
-
 </div>
 <?php endforeach; ?>
 <?php else: ?>
