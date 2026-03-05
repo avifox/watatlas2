@@ -1,10 +1,8 @@
 <?php
 require_once 'shared/init.php'; // handles session_start + dbConfig
 include 'shared/navbar.php';
-
 // Get search term
 $searchTerm = isset($_GET['q']) ? trim($_GET['q']) : '';
-
 $results = [];
 if ($searchTerm !== '') {
     $stmt = $conn->prepare("
@@ -31,7 +29,6 @@ if ($searchTerm !== '') {
 <body>
     <!-- Navbar -->
     <?php include './shared/navbar.php'; ?>
-
     <div class="container my-5">
         <h2>Search Results for "<?php echo htmlspecialchars($searchTerm); ?>"</h2>
         <div class="row mt-4">
@@ -66,7 +63,6 @@ if ($searchTerm !== '') {
             <?php endif; ?>
         </div>
     </div>
-
     <!-- Footer -->
     <?php include './shared/footer.php'; ?>
 </body>

@@ -102,8 +102,11 @@ if (isset($_SESSION['userid'])) {
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <?php include './shared/head.php'; ?>
-    <title><?php echo htmlspecialchars($place['name']); ?></title>
+<meta charset="UTF-8">
+<title><?php echo htmlspecialchars($place['name']); ?></title>
+<?php include '../../shared/head.php'; ?>
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+<link rel="stylesheet" href="../../assets/css/place.css">
 </head>
 
 <body>

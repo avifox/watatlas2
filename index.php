@@ -4,7 +4,7 @@
 </head>
 <body>
     <!-- Navbar -->
-    <?php include 'shared/navbar.php'; ?>
+    <?php include './shared/navbar.php'; ?>
 
     <div class="container">
         <!-- Hero Section -->
