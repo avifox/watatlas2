@@ -1,10 +1,14 @@
 <?php
-require_once 'shared/init.php'; // handles session_start + dbConfig
-include 'shared/navbar.php';
-// Get search term
+require_once 'shared/dbconfig.php';
+
+// checks if a query parameter q exists in the URL (like ?q=Paris)
 $searchTerm = isset($_GET['q']) ? trim($_GET['q']) : '';
+// an empty array is initialized to hold result for later
 $results = [];
+// only run search if user entered something/not empty
 if ($searchTerm !== '') {
+// prepared statement - safer against sql injection
+// checks if name/address/country/typename is like the search textbox value
     $stmt = $conn->prepare("
         SELECT p.id, p.name, p.address, p.country, p.picture, t.typename
         FROM places p
@@ -23,6 +27,7 @@ if ($searchTerm !== '') {
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<!-- This includes all the imports-->
     <?php include './shared/head.php'; ?>
     <title>Search Results - WatAtlas</title>
 </head>

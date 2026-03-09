@@ -10,7 +10,3 @@
 .navbar a.nav-link:hover {
   color: #ffc107 !important; /* gold hover */
 }
-
-.greet {
-  color: white;
-}

@@ -114,7 +114,7 @@ if (isset($_SESSION['userid'])) {
 
 <!-- HERO -->
 <div class="place-hero mb-4">
-    <img src="<?php echo '../../'.htmlspecialchars($place['picture']); ?>">
+    <img src="<?php echo ''.htmlspecialchars($place['picture']); ?>">
     <div class="hero-overlay">
         <h2><?php echo htmlspecialchars($place['name']); ?></h2>
         <span class="badge bg-light text-dark">
