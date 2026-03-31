@@ -28,10 +28,13 @@ $stmt->close();
 /* Extract coordinates */
 $lat = 0;
 $lng = 0;
-if (!empty($place['location'])) {
+
+if (!empty($place['location']) && strpos($place['location'], '/') !== false) {
     $coords = explode('/', $place['location']);
-    $lat = floatval($coords[0]);
-    $lng = floatval($coords[1]);
+    if (count($coords) === 2) {
+        $lat = floatval($coords[0]);
+        $lng = floatval($coords[1]);
+    }
 }
 
 /* =========================
@@ -114,7 +117,7 @@ if (isset($_SESSION['userid'])) {
 
 <!-- HERO -->
 <div class="place-hero mb-4">
-    <img src="<?php echo ''.htmlspecialchars($place['picture']); ?>">
+    <img src="<?php echo '../../'.htmlspecialchars($place['picture']); ?>">
     <div class="hero-overlay">
         <h2><?php echo htmlspecialchars($place['name']); ?></h2>
         <span class="badge bg-light text-dark">
@@ -138,9 +141,9 @@ if (isset($_SESSION['userid'])) {
 <div class="row gallery g-3">
 <?php foreach ($pictures as $pic): ?>
 <div class="col-md-4">
-<img src="../<?php echo htmlspecialchars($pic); ?>" 
+<img src="<?php echo './../' . htmlspecialchars($pic); ?>" 
      class="w-100 gallery-img"
-     data-img="../<?php echo htmlspecialchars($pic); ?>">
+     data-img="../../<?php echo htmlspecialchars($pic); ?>">
 </div>
 <?php endforeach; ?>
 </div>

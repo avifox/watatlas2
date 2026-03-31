@@ -17,7 +17,7 @@ function uploadPictures($placeName, $files) {
     $uploaded = [];
     $timestamp = time();
     $folderName = preg_replace('/[^a-zA-Z0-9]/', '_', $placeName) . "_" . $timestamp;
-    $dir = "/watatlas/uploads/$folderName";
+    $dir = "../uploads/$folderName";
 
     if (!is_dir($dir)) mkdir($dir, 0777, true);
 
@@ -236,9 +236,11 @@ $places = $conn->query("SELECT p.*, pt.typeName FROM places p LEFT JOIN placetyp
                         <td><?= $p['name'] ?></td>
                         <td><?= $p['picture'] ?></td>
                         <td>
-                            <?php if($p['picture']) { ?>
-                                <img src="watatlas/uploads/Antartica_1773077124/this-was-sent-to-me-from.jpg" width="50" class="img-thumbnail">
-                            <?php } ?>
+<?php if (!empty($p['picture'])) { ?>
+    <img src="<?php echo htmlspecialchars($p['picture'], ENT_QUOTES, 'UTF-8'); ?>" 
+         width="50" class="img-thumbnail" alt="Thumbnail">
+<?php } ?>
+
                         </td>
                         <td>
                             <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#editModal<?= $p['id'] ?>">Edit</button>

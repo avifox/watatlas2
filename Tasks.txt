@@ -1,0 +1,8 @@
+--------------- Open -------------------------------
+Standardize pictures retrieve location
+Privacy, Terms and Policy Pages
+Make Privacy, Terms and Policy Pages appear before user clicks on google authentication
+
+----------------- In Progress ----------------------
+
+----------------- Done -----------------------------
