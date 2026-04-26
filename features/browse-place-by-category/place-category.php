@@ -90,7 +90,7 @@ $result = $stmt->get_result();
                 <a href="features/place.php?id=<?php echo urlencode($row["id"]); ?>"
                     class="text-decoration-none text-dark">
                     <div class="card shadow-sm h-100">
-                        <img src="../../<?php echo htmlspecialchars($row["picture"]); ?>" class="card-img-top"
+                        <img src="./<?php echo htmlspecialchars($row["picture"]); ?>" class="card-img-top"
                             alt="<?php echo htmlspecialchars($row["name"]); ?>">
                         <div class="card-body">
                             <h5 class="card-title"><?php echo htmlspecialchars($row["name"]); ?></h5>

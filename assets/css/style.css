@@ -30,6 +30,12 @@ body {
   z-index: 1;
 }
 
+@media (max-width: 576px) {
+  .hero form {
+    margin: 0 15px; /* adds space on left and right */
+  }
+}
+
 .card img {
   height: 200px;
   object-fit: cover;

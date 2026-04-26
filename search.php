@@ -41,7 +41,7 @@ if ($searchTerm !== '') {
                 <?php foreach ($results as $place): ?>
                     <div class="col-md-4 mb-4">
                         <div class="card h-100 shadow-sm">
-                            <img src="<?php echo htmlspecialchars($place['picture']); ?>" 
+                            <img src="<?php echo htmlspecialchars(preg_replace('/\.\.\//', './', $place['picture'], 1)); ?>" 
                                  class="card-img-top"
                                  alt="<?php echo htmlspecialchars($place['name']); ?>">
                             <div class="card-body">
@@ -51,7 +51,7 @@ if ($searchTerm !== '') {
                                     <?php echo htmlspecialchars($place['address']); ?>,
                                     <?php echo htmlspecialchars($place['country']); ?>
                                 </p>
-                                <a href="features/place.php?id=<?php echo urlencode($place['id']); ?>"
+                                <a href="features/place/place-review.php?id=<?php echo urlencode($place['id']); ?>"
                                    class="btn btn-outline-primary btn-sm">View Details</a>
                             </div>
                         </div>
