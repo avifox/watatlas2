@@ -8,9 +8,7 @@ if (session_status() === PHP_SESSION_NONE) {
 
 $placeId = isset($_GET['id']) ? intval($_GET['id']) : 0;
 
-/* =========================
-   GET PLACE DETAILS
-========================= */
+/* GET PLACE */
 $stmt = $conn->prepare("
     SELECT p.id, p.name, p.description, p.address, 
            p.country, p.location, p.phone, p.picture, 
@@ -21,85 +19,26 @@ $stmt = $conn->prepare("
 ");
 $stmt->bind_param("i", $placeId);
 $stmt->execute();
-$result = $stmt->get_result();
-$place = $result->fetch_assoc();
+$place = $stmt->get_result()->fetch_assoc();
 $stmt->close();
 
-/* Extract coordinates */
+/* COORDS */
 $lat = 0;
 $lng = 0;
-
 if (!empty($place['location']) && strpos($place['location'], '/') !== false) {
-    $coords = explode('/', $place['location']);
-    if (count($coords) === 2) {
-        $lat = floatval($coords[0]);
-        $lng = floatval($coords[1]);
-    }
+    [$lat, $lng] = explode('/', $place['location']);
 }
 
-/* =========================
-   GALLERY
-========================= */
+/* GALLERY */
 $pictures = [];
 $picStmt = $conn->prepare("SELECT pictureUrl FROM placepictures WHERE placeid = ?");
 $picStmt->bind_param("i", $placeId);
 $picStmt->execute();
-$picResult = $picStmt->get_result();
-while ($row = $picResult->fetch_assoc()) {
+$res = $picStmt->get_result();
+while ($row = $res->fetch_assoc()) {
     $pictures[] = $row['pictureUrl'];
 }
 $picStmt->close();
-
-/* =========================
-   REVIEWS
-========================= */
-$reviews = [];
-$userid = isset($_SESSION['userid']) ? $_SESSION['userid'] : 0;
-
-$revStmt = $conn->prepare("
-    SELECT r.id, r.userid, r.rating, r.reviewtext, r.flagged, r.createdat,
-           u.firstname, u.lastname,
-           IF(urf.userid IS NULL, 0, 1) AS already_flagged
-    FROM reviews r
-    JOIN users u ON r.userid = u.userid
-    LEFT JOIN user_review_flag urf 
-           ON urf.reviewid = r.id 
-           AND urf.userid = ?
-    WHERE r.placeid = ?
-    ORDER BY r.createdat DESC
-");
-
-$revStmt->bind_param("ii", $userid, $placeId);
-$revStmt->execute();
-$revResult = $revStmt->get_result();
-
-while ($row = $revResult->fetch_assoc()) {
-    $reviews[] = $row;
-}
-
-$revStmt->close();
-
-/* =========================
-   CHECK IF USER REVIEWED THIS YEAR
-========================= */
-$alreadyReviewedThisYear = false;
-
-if (isset($_SESSION['userid'])) {
-    $currentYear = date("Y");
-    $checkStmt = $conn->prepare("
-        SELECT id FROM reviews
-        WHERE placeid = ?
-        AND userid = ?
-        AND YEAR(createdat) = ?
-    ");
-    $checkStmt->bind_param("iii", $placeId, $_SESSION['userid'], $currentYear);
-    $checkStmt->execute();
-    $checkStmt->store_result();
-    if ($checkStmt->num_rows > 0) {
-        $alreadyReviewedThisYear = true;
-    }
-    $checkStmt->close();
-}
 ?>
 
 <!DOCTYPE html>
@@ -108,19 +47,22 @@ if (isset($_SESSION['userid'])) {
 <head>
     <meta charset="UTF-8">
     <title><?php echo htmlspecialchars($place['name']); ?></title>
+
     <?php include '../../shared/head.php'; ?>
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-    <link rel="stylesheet" href="../../assets/css/place.css">
 </head>
 
 <body>
+
     <div class="container py-4">
 
         <!-- HERO -->
-        <div class="place-hero mb-4">
-            <img src="<?php echo '../' . htmlspecialchars($place['picture']); ?>">
-            <div class="hero-overlay">
-                <h2><?php echo htmlspecialchars($place['name']); ?></h2>
+        <div class="position-relative mb-4 rounded overflow-hidden" style="height:300px;">
+            <img src="<?php echo '../' . htmlspecialchars($place['picture']); ?>" class="w-100 h-100 object-fit-cover">
+
+            <div class="position-absolute bottom-0 start-0 w-100 p-3 text-white"
+                style="background: linear-gradient(transparent, rgba(0,0,0,0.7));">
+                <h3 class="mb-1"><?php echo htmlspecialchars($place['name']); ?></h3>
                 <span class="badge bg-light text-dark">
                     <?php echo htmlspecialchars($place['typename']); ?>
                 </span>
@@ -132,60 +74,84 @@ if (isset($_SESSION['userid'])) {
             <!-- LEFT -->
             <div class="col-lg-8">
 
-<div class="card info-card p-4 mb-4">
-    <p class="text-justify">
-        <?php echo nl2br(htmlspecialchars($place['description'])); ?>
-    </p>
-</div>
+                <!-- DESCRIPTION (no border) -->
+                <div class="mb-4">
+                    <p class="mb-0">
+                        <?php echo nl2br(htmlspecialchars($place['description'])); ?>
+                    </p>
+                </div>
+
+                <!-- GALLERY -->
                 <?php if (!empty($pictures)): ?>
-                    <div class="card info-card p-4 mb-4">
-                        <h5 class="section-title">Gallery</h5>
-                        <div class="row gallery g-3">
-                            <?php foreach ($pictures as $pic): ?>
+                    <div class="card p-4 mb-4">
+                        <div class="row g-3">
+                            <?php foreach ($pictures as $index => $pic): ?>
                                 <div class="col-md-4">
-                                    <img src="<?php echo './../' . htmlspecialchars($pic); ?>" class="w-100 gallery-img"
-                                        data-img="./../<?php echo htmlspecialchars($pic); ?>">
+                                    <img src="<?php echo './../' . htmlspecialchars($pic); ?>" class="w-100 rounded gallery-img"
+                                        data-index="<?php echo $index; ?>"
+                                        style="height:200px; object-fit:cover; cursor:pointer;">
                                 </div>
                             <?php endforeach; ?>
                         </div>
                     </div>
                 <?php endif; ?>
 
-
             </div>
 
             <!-- RIGHT -->
             <div class="col-lg-4">
-                <div class="card info-card p-4 mb-4">
-                    <h6 class="section-title">Details</h6>
-                    <p><i class="bi bi-geo-alt"></i> <?php echo htmlspecialchars($place['address']); ?>,
+
+                <!-- DETAILS (no border) -->
+                <div class="mb-4">
+
+                    <p>
+                        <i class="bi bi-geo-alt"></i>
+                        <?php echo htmlspecialchars($place['address']); ?>,
                         <?php echo htmlspecialchars($place['country']); ?>
                     </p>
+
                     <?php if (!empty($place['phone'])): ?>
-                        <p><i class="bi bi-telephone"></i> <?php echo htmlspecialchars($place['phone']); ?></p>
+                        <p>
+                            <i class="bi bi-telephone"></i>
+                            <?php echo htmlspecialchars($place['phone']); ?>
+                        </p>
                     <?php endif; ?>
 
-<?php if ($lat != 0 && $lng != 0): ?>
-    <a target="_blank"
-       href="https://www.google.com/maps/dir/?api=1&destination=<?php echo $lat . ',' . $lng; ?>"
-       class="d-inline-flex align-items-center gap-2 mt-2 px-3 py-2 rounded text-decoration-none bg-light border text-primary">
-        <i class="bi bi-signpost-2"></i>
-        Get Directions
-    </a>
-<?php endif; ?>
-                    <div id="map"></div>
+                    <?php if ($lat && $lng): ?>
+                        <a target="_blank"
+                            href="https://www.google.com/maps/dir/?api=1&destination=<?php echo $lat . ',' . $lng; ?>"
+                            class="d-inline-flex align-items-center gap-2 mt-2 px-3 py-2 rounded text-decoration-none bg-light border text-primary">
+                            <i class="bi bi-signpost-2"></i>
+                            Get Directions
+                        </a>
+                    <?php endif; ?>
+
+                    <div id="map" style="height:250px;" class="mt-3"></div>
                 </div>
+
             </div>
 
         </div>
     </div>
 
-    <!-- IMAGE MODAL -->
+    <!-- MODAL -->
     <div class="modal fade" id="imageModal" tabindex="-1">
         <div class="modal-dialog modal-lg modal-dialog-centered">
-            <div class="modal-content">
-                <button type="button" class="btn-close btn-close-white ms-auto m-2" data-bs-dismiss="modal"></button>
-                <img id="modalImage" class="w-100 rounded">
+            <div class="modal-content bg-dark position-relative">
+
+                <button class="btn-close btn-close-white position-absolute top-0 end-0 m-3 z-3"
+                    data-bs-dismiss="modal"></button>
+
+                <img id="modalImage" class="w-100">
+
+                <button id="prevBtn" class="btn btn-light position-absolute top-50 start-0 translate-middle-y ms-2">
+                    ‹
+                </button>
+
+                <button id="nextBtn" class="btn btn-light position-absolute top-50 end-0 translate-middle-y me-2">
+                    ›
+                </button>
+
             </div>
         </div>
     </div>
@@ -194,37 +160,57 @@ if (isset($_SESSION['userid'])) {
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
+        /* MAP */
         var map = L.map('map').setView([<?php echo $lat; ?>, <?php echo $lng; ?>], 13);
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
         L.marker([<?php echo $lat; ?>, <?php echo $lng; ?>]).addTo(map);
 
-        /* Star Rating */
-        const stars = document.querySelectorAll('.star');
-        const ratingInput = document.getElementById('rating');
-        stars.forEach((star, index) => {
-            star.addEventListener('click', () => {
-                ratingInput.value = index + 1;
-                stars.forEach(s => s.classList.remove('selected'));
-                for (let i = 0; i <= index; i++) {
-                    stars[i].classList.add('selected');
-                }
+        /* GALLERY */
+        const images = <?php echo json_encode(array_map(fn($p) => './../' . $p, $pictures)); ?>;
+        let currentIndex = 0;
+
+        const modal = new bootstrap.Modal(document.getElementById('imageModal'));
+        const modalImg = document.getElementById('modalImage');
+
+        document.querySelectorAll('.gallery-img').forEach(img => {
+            img.addEventListener('click', function () {
+                currentIndex = parseInt(this.dataset.index);
+                updateImage();
+                modal.show();
             });
         });
 
-        /* Gallery Popup */
-        const galleryImages = document.querySelectorAll('.gallery-img');
-        const modalImage = document.getElementById('modalImage');
-        const imageModal = new bootstrap.Modal(document.getElementById('imageModal'));
+        function updateImage() {
+            modalImg.src = images[currentIndex];
+        }
 
-        galleryImages.forEach(img => {
-            img.addEventListener('click', function () {
-                modalImage.src = this.getAttribute('data-img');
-                imageModal.show();
-            });
+        document.getElementById('nextBtn').onclick = () => {
+            currentIndex = (currentIndex + 1) % images.length;
+            updateImage();
+        };
+
+        document.getElementById('prevBtn').onclick = () => {
+            currentIndex = (currentIndex - 1 + images.length) % images.length;
+            updateImage();
+        };
+
+        /* KEYBOARD */
+        document.addEventListener('keydown', e => {
+            if (!document.getElementById('imageModal').classList.contains('show')) return;
+
+            if (e.key === "ArrowRight") {
+                currentIndex = (currentIndex + 1) % images.length;
+                updateImage();
+            }
+            if (e.key === "ArrowLeft") {
+                currentIndex = (currentIndex - 1 + images.length) % images.length;
+                updateImage();
+            }
         });
     </script>
-    <!-- Footer -->
+
     <?php include '../../shared/footer.php'; ?>
+
 </body>
 
 </html>
